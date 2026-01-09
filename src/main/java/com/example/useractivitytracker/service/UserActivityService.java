@@ -1,10 +1,12 @@
 package com.example.useractivitytracker.service;
 
+import com.example.useractivitytracker.dto.response.UserActivityResponse;
 import org.springframework.stereotype.Service;
 import com.example.useractivitytracker.model.UserActivity;
 import com.example.useractivitytracker.repository.UserActivityRepository;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
 public class UserActivityService {
@@ -21,7 +23,22 @@ public class UserActivityService {
         activity.setActivityTimestamp(Instant.now().toString()); // ISO-8601
         activity.setActivityType(activityType);
         activity.setDetails(details);
-
         repository.save(activity);
     }
+    public List<UserActivityResponse> getActivities(String userId,String ActivityType) {
+
+        List<UserActivity> activities =
+                repository.findByUserId(userId, ActivityType);
+
+
+        return activities.stream()
+                .map(activity -> new UserActivityResponse(
+                        activity.getActivityType(),
+                        activity.getDetails(),
+                        activity.getActivityTimestamp()
+                ))
+                .toList();
+    }
+
+
 }
