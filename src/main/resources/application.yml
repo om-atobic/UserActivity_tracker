@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: user-activity-tracker
+
+server:
+  port: 8081
