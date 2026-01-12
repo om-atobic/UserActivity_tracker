@@ -1,8 +1,10 @@
 package com.example.useractivitytracker.controller;
 
 import com.example.useractivitytracker.dto.request.CreateActivityRequest;
+import com.example.useractivitytracker.dto.request.UserActivitySearchPaginationRequest;
 import com.example.useractivitytracker.dto.request.UserActivitySearchRequest;
 import com.example.useractivitytracker.dto.response.UserActivityListResponse;
+import com.example.useractivitytracker.dto.response.UserActivityPageresponse;
 import com.example.useractivitytracker.dto.response.UserActivityResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +47,14 @@ public class UserActivityController {
                         activities.size(),
                         activities
                 );
+
+        return ResponseEntity.ok(response);
+    }
+    @PostMapping("search/pagination")
+    public ResponseEntity<UserActivityPageresponse> getUserActivitiesWithPagination(
+            @Valid @RequestBody UserActivitySearchPaginationRequest request) {
+        UserActivityPageresponse response =
+                service.searchActivities(request);
 
         return ResponseEntity.ok(response);
     }
